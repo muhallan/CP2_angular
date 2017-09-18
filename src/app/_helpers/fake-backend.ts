@@ -17,7 +17,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
 
                 // find if any user matches login credentials
                 let filteredUsers = users.filter(user => {
-                    return user.username === params.username && user.password === params.password;
+                    return user.email === params.email && user.password === params.password;
                 });
 
                 if (filteredUsers.length) {
@@ -27,7 +27,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                         status: 200,
                         body: {
                             id: user.id,
-                            username: user.username,
+                            email: user.email,
                             firstName: user.firstName,
                             lastName: user.lastName,
                             token: 'fake-jwt-token'
@@ -35,7 +35,7 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                     })));
                 } else {
                     // else return 400 bad request
-                    connection.mockError(new Error('Username or password is incorrect'));
+                    connection.mockError(new Error('Email or password is incorrect'));
                 }
 
                 return;
@@ -82,9 +82,9 @@ export function fakeBackendFactory(backend: MockBackend, options: BaseRequestOpt
                 let newUser = JSON.parse(connection.request.getBody());
 
                 // validation
-                let duplicateUser = users.filter(user => { return user.username === newUser.username; }).length;
+                let duplicateUser = users.filter(user => { return user.email === newUser.email; }).length;
                 if (duplicateUser) {
-                    return connection.mockError(new Error('Username "' + newUser.username + '" is already taken'));
+                    return connection.mockError(new Error('Email "' + newUser.username + '" is already taken'));
                 }
 
                 // save new user
