@@ -7,6 +7,7 @@ import { api_root } from '../_models/index';
 @Injectable()
 export class UserService {
     constructor(private http: Http) { }
+
 /*
     getAll() {
         return this.http.get(api_root + '/api/users', this.jwt()).map((response: Response) => response.json());
@@ -17,7 +18,11 @@ export class UserService {
     }
 */
     create(user: User) {
-        return this.http.post(api_root + 'auth/register', user, this.jwt()).map((response: Response) => response.json());
+        return this.http.post(api_root + 'auth/register', user, this.jwt())
+            .map((response: Response) => {
+                const resp = response.json();
+                console.log(resp);
+            });
     }
 /*
     update(user: User) {
@@ -32,10 +37,15 @@ export class UserService {
 
     private jwt() {
         // create authorization header with jwt token
-        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            let headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });
+        // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        // if (currentUser && currentUser.token) {
+
+            const headers = new Headers;
+            headers.append('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+            // headers.append('Authorization', 'Bearer ' + currentUser.access_token);
+
             return new RequestOptions({ headers: headers });
-        }
+        // }
     }
 }

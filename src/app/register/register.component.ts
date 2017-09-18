@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AlertService, UserService } from '../_services/index';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     moduleId: module.id.toString(),
@@ -19,15 +20,20 @@ export class RegisterComponent {
 
     register() {
         this.loading = true;
+        console.log(this.model);
         this.userService.create(this.model)
             .subscribe(
                 data => {
                     this.alertService.success('Registration successful', true);
                     this.router.navigate(['/login']);
                 },
-                error => {
-                    this.alertService.error(error);
+                err => {
+                    const body = JSON.parse(err._body);
+                    const message = body.message;
+                    this.alertService.error(message);
                     this.loading = false;
+
+                    console.log(body.message);
                 });
     }
 }
