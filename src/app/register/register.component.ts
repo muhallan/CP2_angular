@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AlertService, UserService } from '../_services/index';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     moduleId: module.id.toString(),

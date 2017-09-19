@@ -1,0 +1,44 @@
+<div class="topcorner" style="margin: 30px;">
+  {{user_email}}
+  <button type="button" class="btn btn-default btn-sm" (click)="logout()" style="margin-left: 10px;">
+    <span class="glyphicon glyphicon-log-out"></span> Logout
+  </button>
+</div>
+<header style="text-align:center;">
+  <h1>
+     {{pageTitle}}!
+  </h1>
+  <section>
+      A bucket list is a list of everything that you want to be, do, have, and experience in life. <br />
+       Write them down for easy tracking.
+  </section>
+</header>
+
+<div *ngIf='bucketlists && bucketlists.length; else elseBlock' class="col-md-8 col-md-offset-2" style="margin-top: 40px;">
+  
+  <div class="row card border-primary" *ngFor="let bucketlist of bucketlists">
+    <div class="col-md-1" style="line-height: 100px;">1.</div>
+    <div class="col-md-9">
+      <a><h4 class="card-title card-link">{{bucketlist.name}}</h4></a>
+      <p class="card-text">{{bucketlist.items.length == 0 ? 'No' : bucketlist.items.length }} items</p>
+      <p class="card-text"><small class="text-muted">Last updated &nbsp;&nbsp;&nbsp;{{bucketlist.date_modified}}</small></p>
+    </div>
+    <div class="col-md-2" style="line-height: 50px;">
+        <a href="#" class="special_btn btn btn-primary a-btn-slide-text">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            <span><strong>Edit</strong></span>            
+        </a>
+        <a href="#" class="special_btn btn btn-primary a-btn-slide-text">
+           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            <span><strong>Delete</strong></span>            
+        </a>
+    </div>
+  </div>
+  
+</div>
+
+<ng-template #elseBlock>
+    <div class="col-md-6 col-md-offset-3">
+      <p>It looks like you've not added anything, yet. Start by adding a new bucket.</p>
+    </div>
+</ng-template> 

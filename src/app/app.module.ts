@@ -2,11 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
-// used to create fake backend
-import { fakeBackendProvider } from './_helpers/index';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { BaseRequestOptions } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
@@ -17,12 +13,15 @@ import { AlertService, AuthenticationService, UserService } from './_services/in
 import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
+import { BucketlistsComponent } from './bucketlists/bucketlists.component';
+import { BucketlistService } from './_services/index';
 
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
+        HttpClientModule,
         routing
     ],
     declarations: [
@@ -30,18 +29,16 @@ import { RegisterComponent } from './register/index';
         AlertComponent,
         HomeComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        BucketlistsComponent
     ],
     providers: [
         AuthGuard,
         AlertService,
         AuthenticationService,
         UserService,
+        BucketlistService
 
-        // providers used to create fake backend
-        fakeBackendProvider,
-        MockBackend,
-        BaseRequestOptions
     ],
     bootstrap: [AppComponent]
 })
