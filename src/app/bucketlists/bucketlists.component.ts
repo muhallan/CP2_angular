@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Bucketlist, BucketlistJson } from '../_models/index';
 import { BucketlistService } from '../_services/index';
 import { AlertService, AuthenticationService } from '../_services/index';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bucketlists',
@@ -17,8 +17,7 @@ export class BucketlistsComponent implements OnInit {
   bucketlists: Bucketlist[] = [];
 
   constructor(private _productService: BucketlistService, private authenticationService: AuthenticationService,
-    private alertService: AlertService, private route: ActivatedRoute,
-    private router: Router) {  }
+    private alertService: AlertService, private router: Router) {  }
 
   ngOnInit(): void {
 

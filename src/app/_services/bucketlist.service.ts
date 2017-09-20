@@ -13,7 +13,7 @@ import { Bucketlist, BucketlistJson, api_root } from '../_models/index';
 export class BucketlistService {
     private bucketlists_url = api_root + 'bucketlists';
 
-    constructor(private _http: HttpClient) { }
+    constructor(private _http: HttpClient, private otherHttp: Http) { }
 
     getBucketlists(): Observable<BucketlistJson> {
         return this._http.get<BucketlistJson>(this.bucketlists_url,
@@ -22,12 +22,41 @@ export class BucketlistService {
             .catch(this.errorResponse);
     }
 
+    jsonHeaders() {
+        const headers = new Headers;
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser && currentUser.access_token) {
+
+            headers.set('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
+            headers.set('Authorization', 'Bearer ' + currentUser.access_token);
+
+        }
+        const reqOptions = new RequestOptions({headers: headers});
+
+        return reqOptions;
+    }
+
+    addBucketlist(name: string) {
+        // const data = { 'email': email, 'password': password };
+        return this.otherHttp.post(this.bucketlists_url, JSON.stringify({ name: name }),
+                 this.jsonHeaders())
+            .map((response: Response) => {
+                // login successful if there's a jwt token in the response
+                console.log(response);
+                const user = response.json();
+
+            });
+    }
+
     /*
     getBucketlist(id: number): Observable<Bucketlist> {
         return this.getBucketlists()
             .map((bucketlists: Bucketlist[]) => bucketlists.find(b => b.bucketlistId === id));
     }*/
-
+/*
     private handleError(err: HttpErrorResponse) {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
@@ -43,6 +72,7 @@ export class BucketlistService {
         console.error(errorMessage);
         return Observable.throw(errorMessage);
     }
+*/
 
     private jwt(): HttpHeaders {
         // create authorization header with jwt token
@@ -50,8 +80,8 @@ export class BucketlistService {
         if (currentUser && currentUser.access_token) {
 
             const headers = new HttpHeaders;
-            // headers.set('Content-Type', 'application/json');
-            // headers.append('Accept', 'application/json');
+            headers.set('Content-Type', 'application/json');
+            headers.append('Accept', 'application/json');
             headers.set('Authorization', 'Bearer ' + currentUser.access_token);
 
             return headers;
@@ -68,12 +98,8 @@ export class BucketlistService {
     }
 
     private errorResponse (err) {
-        // console.log(err.error);
         const body = JSON.parse(err.error);
         const message = body.message;
-        // this.alertService.error(message);
-
-        // console.log(body.message);
         return Observable.throw(message);
     }
 

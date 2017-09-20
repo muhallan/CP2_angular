@@ -15,6 +15,7 @@ a {
     transition: 0.3s;
     border-radius: 5px; /* 5px rounded corners */
     padding: 15px;
+    margin-bottom: 20px;
 }
 
 a.special_btn:hover {

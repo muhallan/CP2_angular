@@ -15,6 +15,7 @@ import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
 import { BucketlistsComponent } from './bucketlists/bucketlists.component';
 import { BucketlistService } from './_services/index';
+import { AddBucketlistComponent } from './add-bucketlist/add-bucketlist.component';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { BucketlistService } from './_services/index';
         HomeComponent,
         LoginComponent,
         RegisterComponent,
-        BucketlistsComponent
+        BucketlistsComponent,
+        AddBucketlistComponent
     ],
     providers: [
         AuthGuard,
