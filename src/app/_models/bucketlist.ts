@@ -1,28 +1,29 @@
 export class Bucketlist {
-    bucketlistId: number;
-    bucketlistName: string;
-    dateCreated: string;
-    dateModified: string;
-    createdByUserId: number;
-    bucketlistItems: BucketlistItem[];
+    id: number;
+    name: string;
+    date_created: string;
+    date_modified: string;
+    created_by: number;
+    items: BucketlistItem[];
 }
 
 export class BucketlistJson {
     items: Bucketlist[];
-    itemsPerPage: number;
-    nextPage: number;
+    items_per_page: number;
+    next_page: number;
     page: number;
-    prevPage: number;
-    totalItems: number;
-    totalPages: number;
+    prev_page: number;
+    total_items: number;
+    total_pages: number;
 }
 
 export class BucketlistItem {
-    itemId: number;
-    itemName: string;
+    id: number;
+    name: string;
     date_created: string;
     date_modified: string;
     done: boolean;
+    belongs_to: number;
 }
 
 /*

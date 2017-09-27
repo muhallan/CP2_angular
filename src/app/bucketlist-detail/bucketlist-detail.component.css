@@ -1,0 +1,57 @@
+.bucketlist h3{
+    margin:0;
+    padding:40px 20px 20px;
+}
+.bucketlist h4 {
+    margin: 20px 0 10px; 
+}
+.form-control{
+    border-radius:0;
+}
+li.ui-state-default{
+    background:#fff;
+    border:none;
+    border-bottom:1px solid #ddd;
+}
+
+li.ui-state-default:last-child{
+    border-bottom:none;
+}
+
+.bucket-footer{
+    background-color:#D3DFF3;
+    padding: 10px 20px;
+}
+#done-items li{
+    border-bottom:1px solid #ddd;
+    text-decoration:line-through;
+}
+#done-items li:last-child{
+    border-bottom:none;
+}
+li {
+    padding: 5px 0;
+}
+#checkAll{
+    margin-top:10px;
+    background: rgb(42,72,107);
+}
+
+.add-item{
+    margin: 0 0 25px 0;
+}
+
+.push-to-bottom {
+    position: absolute;
+    bottom: 5%;
+}
+  
+#element {
+    background-color: #000;
+    width: 100px;
+    height: 100px;
+}
+
+.checkbox label input {
+    margin-right: 15px;
+}

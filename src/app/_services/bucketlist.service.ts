@@ -7,89 +7,122 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 
-import { Bucketlist, BucketlistJson, api_root } from '../_models/index';
+import { Bucketlist, BucketlistJson, api_root, BucketlistItem } from '../_models/index';
 
 @Injectable()
 export class BucketlistService {
     private bucketlists_url = api_root + 'bucketlists';
+    private bucketlist_single_url = api_root + 'bucketlists/';
 
     constructor(private _http: HttpClient, private otherHttp: Http) { }
 
-    getBucketlists(): Observable<BucketlistJson> {
-        return this._http.get<BucketlistJson>(this.bucketlists_url,
+    getBucketlists(query: string, page: number, limit: number): Observable<BucketlistJson> {
+        return this._http.get<BucketlistJson>(this.bucketlists_url + '?q=' + query + '&limit=' + limit + '&page=' + page,
                 {headers: new HttpHeaders().set('Authorization', this.getAuthToken()), } )
-            .do(data => console.log('All: ' + JSON.stringify(data)))
+            .do(data => console.log('All: '))
             .catch(this.errorResponse);
     }
-
+/*
+    getBucketlistsSearch(query: string, page: number, limit: number): Observable<BucketlistJson> {
+        return this._http.get<BucketlistJson>(
+            this.bucketlists_url + '?q=' + query + '&limit=' + limit + '&page=' + page,
+                {headers: new HttpHeaders().set('Authorization', this.getAuthToken()), } )
+            .do(data => console.log('All: '))
+            .catch(this.errorResponse);
+    }
+*/
     jsonHeaders() {
         const headers = new Headers;
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.access_token) {
-
             headers.set('Content-Type', 'application/json');
             headers.append('Accept', 'application/json');
             headers.set('Authorization', 'Bearer ' + currentUser.access_token);
-
         }
         const reqOptions = new RequestOptions({headers: headers});
 
         return reqOptions;
     }
 
-    addBucketlist(name: string) {
-        // const data = { 'email': email, 'password': password };
+    addBucketlist(name: string): Observable<Bucketlist> {
         return this.otherHttp.post(this.bucketlists_url, JSON.stringify({ name: name }),
                  this.jsonHeaders())
             .map((response: Response) => {
-                // login successful if there's a jwt token in the response
-                console.log(response);
-                const user = response.json();
+                const bucketlist: Bucketlist = response.json();
+                console.log(bucketlist);
+                return bucketlist;
+            });
+    }
+
+    addBucketlistItem(name: string, id: number): Observable<BucketlistItem> {
+        return this.otherHttp.post(this.bucketlist_single_url + id + '/items', JSON.stringify({ name: name }),
+                 this.jsonHeaders())
+            .map((response: Response) => {
+
+                const bucketlistItem: BucketlistItem = response.json();
+                console.log(bucketlistItem);
+                return bucketlistItem;
 
             });
     }
 
-    /*
-    getBucketlist(id: number): Observable<Bucketlist> {
-        return this.getBucketlists()
-            .map((bucketlists: Bucketlist[]) => bucketlists.find(b => b.bucketlistId === id));
-    }*/
-/*
-    private handleError(err: HttpErrorResponse) {
-        // in a real world app, we may send the server to some remote logging infrastructure
-        // instead of just logging it to the console
-        let errorMessage = '';
-        if (err.error instanceof Error) {
-            // A client-side or network error occurred. Handle it accordingly.
-            errorMessage = `An error occurred: ${err.error.message}`;
-        } else {
-            // The backend returned an unsuccessful response code.
-            // The response body may contain clues as to what went wrong,
-            errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
-        }
-        console.error(errorMessage);
-        return Observable.throw(errorMessage);
+    toggleBucketlistItemDone(name: string, id: number, done: string, item_id: number): Observable<BucketlistItem> {
+        return this.otherHttp.put(this.bucketlist_single_url + id + '/items/' + item_id, JSON.stringify({ name: name, done: done }),
+                 this.jsonHeaders())
+            .map((response: Response) => {
+                const bucketlistItem: BucketlistItem = response.json();
+                console.log(bucketlistItem);
+                return bucketlistItem;
+            });
     }
-*/
 
-    private jwt(): HttpHeaders {
-        // create authorization header with jwt token
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.access_token) {
 
-            const headers = new HttpHeaders;
-            headers.set('Content-Type', 'application/json');
-            headers.append('Accept', 'application/json');
-            headers.set('Authorization', 'Bearer ' + currentUser.access_token);
+    getBucketlist(id: number): Observable<Bucketlist> {
+        return this._http.get<Bucketlist>(this.bucketlist_single_url + id,
+                {headers: new HttpHeaders().set('Authorization', this.getAuthToken()), } )
+            .do(data => console.log('All single: ' + JSON.stringify(data)))
+            .catch(this.errorResponse);
+    }
 
-            return headers;
-        }
+    deleteBucketlist(id: number): Observable<Bucketlist> {
+        return this._http.delete<Bucketlist>(this.bucketlist_single_url + id,
+                {headers: new HttpHeaders().set('Authorization', this.getAuthToken()), } )
+            .do(data => console.log('Message: ' + JSON.stringify(data)))
+            .catch(this.errorResponse);
+    }
+
+    editBucketlist(id: number, name: string): Observable<Bucketlist> {
+        return this.otherHttp.put(this.bucketlist_single_url + id, JSON.stringify({ name: name }),
+                 this.jsonHeaders())
+            .map((response: Response) => {
+                const bucketlist: Bucketlist = response.json();
+                console.log(bucketlist);
+                return bucketlist;
+            });
+    }
+
+    editBucketlistItem(itemId: number, bucketId: number, name: string): Observable<BucketlistItem> {
+        return this.otherHttp.put(this.bucketlist_single_url + bucketId + '/items/' + itemId, JSON.stringify({ name: name }),
+                 this.jsonHeaders())
+            .map((response: Response) => {
+                const bucketlistItem: BucketlistItem = response.json();
+                // bucketlist.items = [];
+                console.log(bucketlistItem);
+                return bucketlistItem;
+            });
+    }
+
+    deleteBucketlistItem(itemId: number, bucketId: number): Observable<BucketlistItem> {
+        return this._http.delete<BucketlistItem>(this.bucketlist_single_url + bucketId + '/items/' + itemId,
+                {headers: new HttpHeaders().set('Authorization', this.getAuthToken()), } )
+            .do(data => console.log('Message: ' + JSON.stringify(data)))
+            .catch(this.errorResponse);
     }
 
     private getAuthToken(): string {
-        // create authorization header with jwt token
+        // get the jwt token
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.access_token) {
             const token = 'Bearer ' + currentUser.access_token;
@@ -98,6 +131,10 @@ export class BucketlistService {
     }
 
     private errorResponse (err) {
+        if (err.status === 404) {
+            return Observable.throw('404');
+        }
+        // parse an Observable error message
         const body = JSON.parse(err.error);
         const message = body.message;
         return Observable.throw(message);

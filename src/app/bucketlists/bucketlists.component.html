@@ -1,45 +1,79 @@
-<div class="topcorner" style="margin: 30px;">
-  {{user_email}}
-  <button type="button" class="btn btn-default btn-sm" (click)="logout()" style="margin-left: 10px;">
-    <span class="glyphicon glyphicon-log-out"></span> Logout
-  </button>
-</div>
-<header style="text-align:center;">
-  <h1>
-     {{pageTitle}}!
-  </h1>
+<app-header [display]="enableSearch" (limit)="getPageLimit($event)" (search_query)="searchBucketlists($event)"></app-header>
+<header style="text-align:center; margin-top: 75px;">
   <section>
       A bucket list is a list of everything that you want to be, do, have, and experience in life. <br />
-       Write them down for easy tracking.
+        Write them down for easy tracking.
   </section>
-  <app-add-bucketlist></app-add-bucketlist>
+  <app-add-bucketlist [newbucketlists]="bucketlists"></app-add-bucketlist>
 </header>
-
-<div *ngIf='bucketlists && bucketlists.length; else elseBlock' class="col-md-8 col-md-offset-2" style="margin-top: 40px;">
-  
-  <div class="row card border-primary" *ngFor="let bucketlist of bucketlists">
-    <div class="col-md-1" style="line-height: 100px;">1.</div>
-    <div class="col-md-9">
-      <a><h4 class="card-title card-link">{{bucketlist.name}}</h4></a>
-      <p class="card-text">{{bucketlist.items.length == 0 ? 'No' : bucketlist.items.length }} items</p>
-      <p class="card-text"><small class="text-muted">Last updated &nbsp;&nbsp;&nbsp;{{bucketlist.date_modified}}</small></p>
+<div class="row justify-content-center">
+  <div *ngIf='bucketlists && bucketlists.length; else elseBlock' class="col-sm-9 center-block " style="margin-top: 40px;">
+    
+    <div class="row d-flex flex-row card border-primary" *ngFor="let bucketlist of bucketlists; let num = index">
+      
+      <div class="col">
+        <span >{{calcIndex + num + 1}}.</span><a class="card-title card-link h4" [routerLink]="['/bucketlists', bucketlist.id]">{{bucketlist.name}}</a>
+        <div class="card-text">
+          {{bucketlist.items.length == 0 ? 'No' : bucketlist.items.length }} {{bucketlist.items.length == 1 ? 'item' : 'items' }}
+          <p><small class="text-muted">Last updated:&nbsp;{{bucketlist.date_modified}}</small></p>
+        </div>
+      </div>
+      <div class="col-2 align-items-end align-self-center" style="padding-left: 50px;">
+          <a href="#" (click)="editBucketlist(bucketlist, bucketlists)" class="special_btn btn btn-primary a-btn-slide-text" >
+              <span class="fa fa-edit" aria-hidden="true"></span>
+              <span><strong>Edit</strong></span>            
+          </a>
+          <a href="#" (click)="confirmDelete(bucketlist)" class="special_btn btn btn-primary a-btn-slide-text">
+            <span class="fa fa-remove" aria-hidden="true"></span>
+              <span><strong>Delete</strong></span>            
+          </a>
+      </div>
     </div>
-    <div class="col-md-2" style="line-height: 50px;">
-        <a href="#" class="special_btn btn btn-primary a-btn-slide-text">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-            <span><strong>Edit</strong></span>            
-        </a>
-        <a href="#" class="special_btn btn btn-primary a-btn-slide-text">
-           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            <span><strong>Delete</strong></span>            
-        </a>
+    <div *ngIf="pages">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-end">
+          <li class="page-item" [ngClass]="{disabled:current_page === 1}">
+            <a class="page-link" aria-label="Previous" (click)="getAPIBucketlists(current_page - 1)" tabindex="-1">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          <li class="page-item" *ngFor="let page of pages" [class.active]="page === current_page">
+            <a (click)="getAPIBucketlists(page)" class="page-link">{{ page }}</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:current_page === total_pages}">
+            <a class="page-link" (click)="getAPIBucketlists(current_page + 1)" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
-  
 </div>
 
 <ng-template #elseBlock>
-    <div class="col-md-6 col-md-offset-3">
-      <p>It looks like you've not added anything, yet. Start by adding a new bucket.</p>
+    <div class="text-center" style="margin-top: 15px;">
+        <img src="../assets/images/empty_bucket.png">
+      <p>{{ empty_message }}</p>
     </div>
 </ng-template> 
+<!--
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit bucket's name</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>
+      {{bucketlist.name}}
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>
+-->

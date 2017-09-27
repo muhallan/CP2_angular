@@ -1,6 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, EventEmitter } from '@angular/core';
 import { AlertService, BucketlistService } from '../_services/index';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Bucketlist } from '../_models/index';
 
 @Component({
   selector: 'app-add-bucketlist',
@@ -10,8 +11,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class AddBucketlistComponent {
 
   returnUrl: string;
+  newBucketlist = '';
 
-  constructor(private alertService: AlertService, private _productService: BucketlistService, private router: Router) { }
+  @Input()
+  public newbucketlists: Bucketlist[] = [];
+
+  constructor(private alertService: AlertService, private bucketlistService: BucketlistService, private router: Router) { }
 /*
   newBucketlist: string;
 
@@ -25,33 +30,32 @@ export class AddBucketlistComponent {
       const error = 'Bucketlist name cannot be empty';
       this.alertService.error(error);
     } else {
-        this._productService.addBucketlist(name)
-        .subscribe(
-          data => {
-            /*
-            const bucketlists_json: BucketlistJson = data;
-            for (const bucketlistJson of bucketlists_json.items) {
-                this.bucketlists.push(bucketlistJson);
-            }
-            */
-            console.log(data);
-        },
-          err => {
-            console.log(err);
-            let message: string;
-            if (err === 'Expired token. Please login to get a new token') {
-                message = 'Your session has expired. Please login again.';
+      this.bucketlistService.addBucketlist(name)
+      .subscribe(
+        data => {
+          const bucketlist: Bucketlist = data;
+          this.newbucketlists.push(bucketlist);
+          console.log(this.newbucketlists.length);
+      },
+        err => {
+          console.log(err);
+          let message: string;
+          if (err === 'Expired token. Please login to get a new token') {
+              message = 'Your session has expired. Please login again.';
 
-                // get return url from route parameters or default to '/'
-                this.returnUrl = 'login';
-                this.router.navigate([this.returnUrl]);
-            } else {
-              message = err;
-            }
-            this.alertService.error(message);
+              // get return url from route parameters or default to '/'
+              this.returnUrl = 'login';
+              this.router.navigate([this.returnUrl]);
+          } else {
+            const body = JSON.parse(err._body);
+            message = body.message;
+          }
+          this.alertService.error(message);
 
-        });
+      });
     }
+
+    this.newBucketlist = null;
   }
 
 }

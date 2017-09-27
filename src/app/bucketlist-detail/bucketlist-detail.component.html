@@ -1,0 +1,53 @@
+<app-header></app-header>
+<div ui-view="header" autoscroll="true" class="row justify-content-center" style="margin-top: 40px;">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="bucketlist">
+      <h3>{{bucketlistName}}</h3>
+      <input type="text" class="form-control add-item" placeholder="Add item to bucket (enter when done)"
+      autofocus
+      [(ngModel)]="newItem"
+      (keyup.enter)="addBucketlistItem(bItemName.value, bucketlist.id)"
+      #bItemName
+      />
+      <div class="items" *ngIf='bucketlistItems && bucketlistItems.length; else elseBlock'>
+        <ul id="sortable" class="list-unstyled">
+          <li class="ui-state-default" *ngFor="let item of pendingItems">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="" (click)="toggleDone(item)" [checked]="item.done"/>
+                  {{item.name}}
+                </label>
+                <a (click)="confirmDeleteItem(item)"><span class="pull-right fa fa-remove"></span></a>
+                <a (click)="editBucketlistItem(item, pendingItems)"><span class="fa fa-edit pull-right" style="margin-right: 15px;"></span></a>
+              </div>
+          </li>
+        </ul>
+        <div class="bucket-footer">
+          <strong><span class="count-todos"></span></strong> {{bucketlistItems.length - doneItems.length}} {{(bucketlistItems.length - doneItems.length) == 1 ? 'item' : 'items' }} left
+        </div>
+        <div class="bucketlist" *ngIf='doneItems && doneItems.length'>
+          <h4 style="text-align: left;">Already done items</h4>
+          <ul id="done-items" class="list-unstyled">
+            
+            <li *ngFor="let item of doneItems"> 
+              <div class="checkbox">
+                  <label>
+                  <input type="checkbox" value="" (click)="toggleDone(item)" [checked]="item.done"/>
+                {{item.name}}
+                </label>
+                <a (click)="confirmDeleteItem(item)"><span class="fa fa-remove pull-right"></span></a>
+              </div>
+            </li> 
+          </ul>
+        </div>
+      </div>
+      <ng-template #elseBlock>
+          <div class="text-center">
+            <img src="../assets/images/empty_bucket.png">
+            <p>Your bucket is empty. Add items to it by typing in the input above.</p>
+          </div>
+      </ng-template> 
+    </div>
+  </div>
+  
+</div>
