@@ -20,7 +20,6 @@ export class RegisterComponent {
 
     register() {
         this.loading = true;
-        console.log(this.model);
         this.userService.create(this.model)
             .subscribe(
                 data => {
@@ -32,8 +31,6 @@ export class RegisterComponent {
                     const message = body.message;
                     this.alertService.error(message);
                     this.loading = false;
-
-                    console.log(body.message);
                 });
     }
 }

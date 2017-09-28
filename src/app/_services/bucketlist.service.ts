@@ -7,12 +7,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 
-import { Bucketlist, BucketlistJson, api_root, BucketlistItem } from '../_models/index';
+import { Bucketlist, BucketlistJson, BucketlistItem } from '../_models/index';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class BucketlistService {
-    private bucketlists_url = api_root + 'bucketlists';
-    private bucketlist_single_url = api_root + 'bucketlists/';
+    private bucketlists_url = environment.api_root + 'bucketlists';
+    private bucketlist_single_url = environment.api_root + 'bucketlists/';
 
     constructor(private _http: HttpClient, private otherHttp: Http) { }
 
@@ -51,7 +52,6 @@ export class BucketlistService {
                  this.jsonHeaders())
             .map((response: Response) => {
                 const bucketlist: Bucketlist = response.json();
-                console.log(bucketlist);
                 return bucketlist;
             });
     }
@@ -62,7 +62,6 @@ export class BucketlistService {
             .map((response: Response) => {
 
                 const bucketlistItem: BucketlistItem = response.json();
-                console.log(bucketlistItem);
                 return bucketlistItem;
 
             });
@@ -73,7 +72,6 @@ export class BucketlistService {
                  this.jsonHeaders())
             .map((response: Response) => {
                 const bucketlistItem: BucketlistItem = response.json();
-                console.log(bucketlistItem);
                 return bucketlistItem;
             });
     }
@@ -98,7 +96,6 @@ export class BucketlistService {
                  this.jsonHeaders())
             .map((response: Response) => {
                 const bucketlist: Bucketlist = response.json();
-                console.log(bucketlist);
                 return bucketlist;
             });
     }
@@ -108,8 +105,6 @@ export class BucketlistService {
                  this.jsonHeaders())
             .map((response: Response) => {
                 const bucketlistItem: BucketlistItem = response.json();
-                // bucketlist.items = [];
-                console.log(bucketlistItem);
                 return bucketlistItem;
             });
     }

@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
-import { User, api_root } from '../_models/index';
+import { User } from '../_models/index';
+
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
     constructor(private http: Http) { }
 
     create(user: User) {
-        return this.http.post(api_root + 'auth/register', user, this.jwt())
+        return this.http.post(environment.api_root + 'auth/register', user, this.jwt())
             .map((response: Response) => {
                 const resp = response.json();
                 console.log(resp);

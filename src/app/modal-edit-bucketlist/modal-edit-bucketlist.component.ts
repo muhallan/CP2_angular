@@ -48,7 +48,6 @@ export class ModalEditBucketlistComponent implements OnInit {
 
       },
         err => {
-          console.log(err);
           let message: string;
           if (err === 'Expired token. Please login to get a new token') {
               message = 'Your session has expired. Please login again.';

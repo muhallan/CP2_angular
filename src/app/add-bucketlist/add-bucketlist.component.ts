@@ -17,14 +17,8 @@ export class AddBucketlistComponent {
   public newbucketlists: Bucketlist[] = [];
 
   constructor(private alertService: AlertService, private bucketlistService: BucketlistService, private router: Router) { }
-/*
-  newBucketlist: string;
 
-  @Output()
-  newBucketlistName: EventEmitter<string> = new EventEmitter<string>();
-*/
   addBucketlist(name: string) {
-    console.log(name);
 
     if (name === '') {
       const error = 'Bucketlist name cannot be empty';
@@ -35,10 +29,8 @@ export class AddBucketlistComponent {
         data => {
           const bucketlist: Bucketlist = data;
           this.newbucketlists.push(bucketlist);
-          console.log(this.newbucketlists.length);
       },
         err => {
-          console.log(err);
           let message: string;
           if (err === 'Expired token. Please login to get a new token') {
               message = 'Your session has expired. Please login again.';

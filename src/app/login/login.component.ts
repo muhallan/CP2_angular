@@ -39,14 +39,12 @@ export class LoginComponent implements OnInit {
                 (err: HttpErrorResponse) => {
                   if (err.error instanceof Error) {
                     // A client-side or network error occurred. Handle it accordingly.
-                    console.log('An error occurred:', err.error.message);
                     const error = 'An error occurred. Please try again';
                     this.alertService.error(error);
                     this.loading = false;
                   } else {
                     // The backend returned an unsuccessful response code.
                     // The response body may contain clues as to what went wrong,
-                    console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
                     let error = '';
                     if (err.status === 401) {
                         error = 'Unknown email or password';
@@ -59,9 +57,6 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                   }
                 });
-                /*error => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                });*/
+                
     }
 }

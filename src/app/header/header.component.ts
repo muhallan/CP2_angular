@@ -28,7 +28,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     const currentUser = localStorage.getItem('userEmail');
-    console.log(currentUser);
     this.user_email = currentUser;
   }
 

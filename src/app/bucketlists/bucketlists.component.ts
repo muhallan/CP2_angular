@@ -53,7 +53,6 @@ export class BucketlistsComponent implements OnInit {
                 this.pages = _.range(1, bucketlists_json.total_pages + 1);
             },
               err => {
-                console.log(err);
                 let message: string;
                 if (err === 'Expired token. Please login to get a new token') {
                     message = 'Your session has expired. Please login again.';
@@ -65,7 +64,6 @@ export class BucketlistsComponent implements OnInit {
                   message = err;
                 }
                 this.alertService.error(message);
-
             });
   }
 
@@ -86,7 +84,6 @@ export class BucketlistsComponent implements OnInit {
         this.pages = _.range(1, bucketlists_json.total_pages + 1);
     },
       err => {
-        console.log(err);
         let message: string;
         if (err === 'Expired token. Please login to get a new token') {
             message = 'Your session has expired. Please login again.';
@@ -103,7 +100,6 @@ export class BucketlistsComponent implements OnInit {
   }
 
   getPageLimit(limit: number) {
-    console.log('limit: ' + limit);
     this.page_limit = limit;
     this.bucketlistService.getBucketlists(this.search_text, this.current_page, this.page_limit)
     .subscribe(
@@ -120,7 +116,6 @@ export class BucketlistsComponent implements OnInit {
         this.pages = _.range(1, bucketlists_json.total_pages + 1);
     },
       err => {
-        console.log(err);
         let message: string;
         if (err === 'Expired token. Please login to get a new token') {
             message = 'Your session has expired. Please login again.';
@@ -137,7 +132,6 @@ export class BucketlistsComponent implements OnInit {
   }
 
   searchBucketlists(query: string) {
-    console.log('search ' + query);
     this.search_text = query;
     this.bucketlistService.getBucketlists(query, this.current_page, this.page_limit)
     .subscribe(
@@ -159,7 +153,6 @@ export class BucketlistsComponent implements OnInit {
         this.pages = _.range(1, bucketlists_json.total_pages + 1);
     },
       err => {
-        console.log(err);
         let message: string;
         if (err === 'Expired token. Please login to get a new token') {
             message = 'Your session has expired. Please login again.';
@@ -176,7 +169,6 @@ export class BucketlistsComponent implements OnInit {
   }
 
   editBucketlist(bucket: Bucketlist, bucketlists: Bucketlist[]) {
-    console.log('Showing edit dialog.');
     const editPromise = this.editService.edit(bucket, bucketlists);
     const newObservable = Observable.fromPromise(editPromise);
     newObservable.subscribe(
@@ -194,21 +186,17 @@ export class BucketlistsComponent implements OnInit {
   }
 
   confirmDelete(bucket: Bucketlist) {
-    console.log('Showing confirm dialog.');
     const modalPromise = this.deleteService.confirm(bucket);
     const newObservable = Observable.fromPromise(modalPromise);
     newObservable.subscribe(
       (res) => {
         if (res === true) {
-          console.log('allowed.');
           this.bucketlistService.deleteBucketlist(bucket.id)
           .subscribe(
             data => {
-              console.log(data);
               this.bucketlists = this.bucketlists.filter((deleted) => deleted.id !== bucket.id);
           },
             err => {
-              console.log(err);
               let message: string;
               if (err === 'Expired token. Please login to get a new token') {
                   message = 'Your session has expired. Please login again.';
