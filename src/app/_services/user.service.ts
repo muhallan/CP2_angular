@@ -13,7 +13,6 @@ export class UserService {
         return this.http.post(environment.api_root + 'auth/register', user, this.jwt())
             .map((response: Response) => {
                 const resp = response.json();
-                console.log(resp);
             });
     }
 

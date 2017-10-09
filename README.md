@@ -3,6 +3,14 @@
 This is a front-end app developed with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
 It helps one write down the activities they want to do before they die. This application consumes an API found [here](https://github.com/muhallan/CP2_Bucketlist/).
 
+## Installing the project
+Clone the project by running the following commands
+```
+$ git clone https://github.com/muhallan/CP2_angular.git
+$ cd CP2_angular
+$ npm install
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

@@ -14,7 +14,6 @@ export class BucketlistDetailGuard implements CanActivate {
 
       const id = +route.url[1].path;
       if (isNaN(id) || id < 1) {
-        console.log(id);
         const message = 'Invalid bucketlist Id';
         this.alertService.error(message);
         this._router.navigate(['/page-not-found']);
