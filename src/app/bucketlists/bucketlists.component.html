@@ -4,9 +4,9 @@
       A bucket list is a list of everything that you want to be, do, have, and experience in life. <br />
         Write them down for easy tracking.
   </section>
-  <app-add-bucketlist [newbucketlists]="bucketlists"></app-add-bucketlist>
+  <app-add-bucketlist *ngIf='!loading;' [newbucketlists]="bucketlists" [pageLimit]="page_limit"></app-add-bucketlist>
 </header>
-<div class="row justify-content-center">
+<div *ngIf='!loading; else loadingBlock' class="row justify-content-center">
   <div *ngIf='bucketlists && bucketlists.length; else elseBlock' class="col-sm-9 center-block " style="margin-top: 40px;">
     
     <div class="row d-flex flex-row card border-primary" *ngFor="let bucketlist of bucketlists; let num = index">
@@ -15,7 +15,7 @@
         <span >{{calcIndex + num + 1}}.</span><a class="card-title card-link h4" [routerLink]="['/bucketlists', bucketlist.id]">{{bucketlist.name}}</a>
         <div class="card-text">
           {{bucketlist.items.length == 0 ? 'No' : bucketlist.items.length }} {{bucketlist.items.length == 1 ? 'item' : 'items' }}
-          <p><small class="text-muted">Last updated:&nbsp;{{bucketlist.date_modified}}</small></p>
+          <p><small class="text-muted">Last updated:&nbsp;{{bucketlist.date_modified | date: 'medium'}}</small></p>
         </div>
       </div>
       <div class="col-2 align-items-end align-self-center" style="padding-left: 50px;">
@@ -42,7 +42,7 @@
             <a (click)="getAPIBucketlists(page)" class="page-link">{{ page }}</a>
           </li>
           <li class="page-item" [ngClass]="{disabled:current_page === total_pages}">
-            <a class="page-link" (click)="getAPIBucketlists(current_page + 1)" aria-label="Next">
+            <a class="page-link" (click)="getAPIBucketlists(current_page + 1)" tabindex="-1" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
               <span class="sr-only">Next</span>
             </a>
@@ -52,6 +52,12 @@
     </div>
   </div>
 </div>
+<ng-template #loadingBlock>
+  <div class="col-4 mx-auto text-center" style="margin-top: 300px;">
+    <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+    Loading
+  </div> 
+</ng-template>
 
 <ng-template #elseBlock>
     <div class="text-center" style="margin-top: 15px;">

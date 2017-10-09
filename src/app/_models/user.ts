@@ -5,3 +5,11 @@ export class User {
     firstName: string;
     lastName: string;
 }
+
+export const testUser = {
+    'id': 1,
+    'email': 'test',
+    'password': 'test',
+    'firstName': 'test',
+    'lastName': 'test'
+};

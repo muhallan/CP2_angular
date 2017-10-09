@@ -16,7 +16,11 @@ export class AddBucketlistComponent {
   @Input()
   public newbucketlists: Bucketlist[] = [];
 
-  constructor(private alertService: AlertService, private bucketlistService: BucketlistService, private router: Router) { }
+  @Input()
+  pageLimit: number;
+
+  constructor(private alertService: AlertService, private bucketlistService: BucketlistService,
+     private router: Router) { }
 
   addBucketlist(name: string) {
 
@@ -28,7 +32,11 @@ export class AddBucketlistComponent {
       .subscribe(
         data => {
           const bucketlist: Bucketlist = data;
-          this.newbucketlists.push(bucketlist);
+          this.newbucketlists.unshift(bucketlist);
+
+          if (this.newbucketlists.length > this.pageLimit) {
+            this.newbucketlists.pop();
+          }
       },
         err => {
           let message: string;

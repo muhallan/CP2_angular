@@ -24,6 +24,7 @@ export class BucketlistDetailComponent implements OnInit {
   pendingItems: BucketlistItem[] = [];
   returnUrl: string;
   newItem = '';
+  loading = true;
 
   constructor(private _route: ActivatedRoute,
     private router: Router,
@@ -35,12 +36,15 @@ export class BucketlistDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = +this._route.snapshot.paramMap.get('id');
+    console.log('id: ' + id);
     this.getBucketlist(id);
   }
 
   getBucketlist(id: number) {
     this.bucketlistService.getBucketlist(id).subscribe(
       bucketlist => {
+        console.log('received');
+        this.loading = false;
         this.bucketlist = bucketlist;
         this.bucketlistName = this.bucketlist.name;
         this.bucketlistItems = this.bucketlist.items;
@@ -54,6 +58,8 @@ export class BucketlistDetailComponent implements OnInit {
         }
       },
       error => {
+        console.log('this?');
+        this.loading = false;
         let message: string;
         this.errorMessage = <any>error;
 
@@ -63,10 +69,11 @@ export class BucketlistDetailComponent implements OnInit {
             this.returnUrl = 'login';
             this.router.navigate([this.returnUrl]);
         } else {
+          console.log('error?');
           // TODO do this on all the functions
           if (error === '404') {
             // get return url from route parameters or default to '/'
-            this.returnUrl = 'bucketlists';
+            this.returnUrl = 'page-not-found';
             this.router.navigate([this.returnUrl]);
             this.alertService.error('This bucket does not exist');
           } else {

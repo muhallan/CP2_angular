@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeDetectorRef, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ModalDeleteBucketlistItemComponent } from './modal-delete-bucketlist-item.component';
 
 describe('ModalDeleteBucketlistItemComponent', () => {
@@ -8,7 +9,13 @@ describe('ModalDeleteBucketlistItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalDeleteBucketlistItemComponent ]
+      declarations: [ ModalDeleteBucketlistItemComponent ],
+
+      providers: [
+          { provide: NgbActiveModal, useClass: MockNgbActiveModal },
+          { provide: ChangeDetectorRef, useClass: MockChangeDetectorRef }
+      ],
+      schemas: [ NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA ]
     })
     .compileComponents();
   }));
@@ -23,3 +30,11 @@ describe('ModalDeleteBucketlistItemComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+class MockNgbActiveModal {
+
+}
+
+class MockChangeDetectorRef {
+
+}

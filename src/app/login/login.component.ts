@@ -11,7 +11,14 @@ import { AlertService, AuthenticationService } from '../_services/index';
 })
 
 export class LoginComponent implements OnInit {
-    model: any = {};
+    model = {
+        email: '',
+        password: ''
+    };
+
+    user: any;
+    error: string;
+
     loading = false;
     returnUrl: string;
 
@@ -29,34 +36,34 @@ export class LoginComponent implements OnInit {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
-    login() {
+    login(email: string, password: string) {
         this.loading = true;
-        this.authenticationService.login(this.model.email, this.model.password)
+        this.authenticationService.login(email, password)
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);
+                    this.user = data;
                 },
                 (err: HttpErrorResponse) => {
                   if (err.error instanceof Error) {
                     // A client-side or network error occurred. Handle it accordingly.
-                    const error = 'An error occurred. Please try again';
-                    this.alertService.error(error);
+                    this.error = 'An error occurred. Please try again';
+                    this.alertService.error(this.error);
                     this.loading = false;
                   } else {
                     // The backend returned an unsuccessful response code.
                     // The response body may contain clues as to what went wrong,
-                    let error = '';
                     if (err.status === 401) {
-                        error = 'Unknown email or password';
+                        this.error = 'Unknown email or password';
                     } else if (err.status === 500) {
-                        error = 'An internal server error occurred';
+                        this.error = 'An internal server error occurred';
                     } else {
-                        error = 'An error has occurred';
+                        this.error = 'An error has occurred';
                     }
-                    this.alertService.error(error);
+                    this.alertService.error(this.error);
                     this.loading = false;
                   }
                 });
-                
+
     }
 }

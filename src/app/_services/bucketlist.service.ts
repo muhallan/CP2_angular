@@ -23,15 +23,7 @@ export class BucketlistService {
             .do(data => console.log('All: '))
             .catch(this.errorResponse);
     }
-/*
-    getBucketlistsSearch(query: string, page: number, limit: number): Observable<BucketlistJson> {
-        return this._http.get<BucketlistJson>(
-            this.bucketlists_url + '?q=' + query + '&limit=' + limit + '&page=' + page,
-                {headers: new HttpHeaders().set('Authorization', this.getAuthToken()), } )
-            .do(data => console.log('All: '))
-            .catch(this.errorResponse);
-    }
-*/
+
     jsonHeaders() {
         const headers = new Headers;
         headers.append('Content-Type', 'application/json');

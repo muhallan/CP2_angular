@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Bucketlist, BucketlistJson } from '../_models/index';
 import { BucketlistService } from '../_services/index';
 import { AlertService } from '../_services/index';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import * as _ from 'underscore';
@@ -31,6 +31,7 @@ export class BucketlistsComponent implements OnInit {
   current_page = 1;
   pages: number[];
   empty_message = 'It looks like you\'ve not added anything, yet. Start by adding a new bucket.';
+  loading = true;
 
   constructor(private bucketlistService: BucketlistService,
     private alertService: AlertService, private router: Router,
@@ -42,6 +43,7 @@ export class BucketlistsComponent implements OnInit {
     this.bucketlistService.getBucketlists(this.search_text, this.current_page, this.page_limit)
             .subscribe(
               data => {
+                this.loading = false;
                 const bucketlists_json: BucketlistJson = data;
                 for (const bucketlistJson of bucketlists_json.items) {
                     this.bucketlists.push(bucketlistJson);
@@ -53,6 +55,7 @@ export class BucketlistsComponent implements OnInit {
                 this.pages = _.range(1, bucketlists_json.total_pages + 1);
             },
               err => {
+                this.loading = false;
                 let message: string;
                 if (err === 'Expired token. Please login to get a new token') {
                     message = 'Your session has expired. Please login again.';

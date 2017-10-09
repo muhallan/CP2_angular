@@ -10,12 +10,10 @@ import { routing } from './app.routing';
 
 import { AlertComponent } from './_directives/index';
 import { AuthGuard, BucketlistDetailGuard } from './_guards/index';
-import { AlertService, AuthenticationService, UserService } from './_services/index';
-import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
 import { BucketlistsComponent } from './bucketlists/bucketlists.component';
-import { BucketlistService } from './_services/index';
+import { BucketlistService , AlertService, AuthenticationService, UserService} from './_services/index';
 import { AddBucketlistComponent } from './add-bucketlist/add-bucketlist.component';
 import { BucketlistDetailComponent } from './bucketlist-detail/bucketlist-detail.component';
 import { HeaderComponent } from './header/header.component';
@@ -25,6 +23,7 @@ import { ModalEditBucketlistItemComponent,
     EditBucketlistItemService } from './modal-edit-bucketlist-item/modal-edit-bucketlist-item.component';
 import { ModalDeleteBucketlistItemComponent,
     DeleteBucketlistItemService } from './modal-delete-bucketlist-item/modal-delete-bucketlist-item.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
     imports: [
@@ -38,7 +37,6 @@ import { ModalDeleteBucketlistItemComponent,
     declarations: [
         AppComponent,
         AlertComponent,
-        HomeComponent,
         LoginComponent,
         RegisterComponent,
         BucketlistsComponent,
@@ -48,7 +46,8 @@ import { ModalDeleteBucketlistItemComponent,
         ModalDeleteBucketlistComponent,
         ModalEditBucketlistComponent,
         ModalEditBucketlistItemComponent,
-        ModalDeleteBucketlistItemComponent
+        ModalDeleteBucketlistItemComponent,
+        PageNotFoundComponent
     ],
     providers: [
         AuthGuard,

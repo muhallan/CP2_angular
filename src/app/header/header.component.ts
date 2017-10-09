@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   pageTitle = 'My Bucketlist';
   user_email: string;
   returnUrl: string;
-  search_value: string;
+  search_value = '';
   selectedLimit = 5;
 
   @Output()

@@ -1,22 +1,27 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
 import { AuthGuard, BucketlistDetailGuard } from './_guards/index';
 import { BucketlistsComponent } from './bucketlists/bucketlists.component';
 import { BucketlistDetailComponent } from './bucketlist-detail/bucketlist-detail.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
-    { path: '', component: BucketlistsComponent, canActivate: [AuthGuard] },
-    { path: 'bucketlists', component: BucketlistsComponent, canActivate: [AuthGuard] },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: '', redirectTo: 'bucketlists', pathMatch: 'full' },
+    { path: 'bucketlists',
+        component: BucketlistsComponent,
+        canActivate: [ AuthGuard ],
+        pathMatch: 'full'
+    },
+    { path: 'login', component: LoginComponent, pathMatch: 'full' },
+    { path: 'register', component: RegisterComponent, pathMatch: 'full' },
     { path: 'bucketlists/:id',
-    canActivate: [ BucketlistDetailGuard ],
-    component: BucketlistDetailComponent },
-    // otherwise redirect to home
-    { path: '**', redirectTo: '' }
+    canActivate: [ AuthGuard, BucketlistDetailGuard ],
+    component: BucketlistDetailComponent, pathMatch: 'full' },
+    { path: 'page-not-found', component: PageNotFoundComponent, pathMatch: 'full' },
+    // otherwise redirect to not found page
+    { path: '**', redirectTo: 'page-not-found', pathMatch: 'full' }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);
