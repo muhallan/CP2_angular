@@ -31,10 +31,12 @@ describe('ModalDeleteBucketlistItemComponent', () => {
   });
 });
 
+// mock NgbActiveModal
 class MockNgbActiveModal {
 
 }
 
+// mock ChangeDetectorRef
 class MockChangeDetectorRef {
 
 }

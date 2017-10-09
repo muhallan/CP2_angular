@@ -27,6 +27,7 @@ export class ModalEditBucketlistComponent implements OnInit {
   ngOnInit() {
   }
 
+  // display the modal for edit and call the service to carry out the edit
   editBucketlistName(bucket: Bucketlist, bucketlistsGot: Bucketlist[]) {
 
     this.bucketlists = bucketlistsGot;
@@ -59,6 +60,7 @@ export class ModalEditBucketlistComponent implements OnInit {
             const body = JSON.parse(err._body);
             message = body.message;
           }
+          // display an error message
           this.alertService.error(message);
           this.activeModal.close();
 
@@ -67,6 +69,7 @@ export class ModalEditBucketlistComponent implements OnInit {
   }
 }
 
+// create a service that displays the modal
 @Injectable()
 export class EditBucketlistService {
 

@@ -1,4 +1,5 @@
 <header>
+   <!-- the navigation bar -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark navbar-inverse bg-primary">
     <a class="navbar-brand" href="#">
         <img src="../assets/images/title_icon.jpg" width="30" height="30" alt="">
@@ -14,6 +15,7 @@
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
       </ul>
+      <!-- to limit items per page -->
       <form class="form-inline my-2 my-lg-0 ml-auto mr-4" *ngIf="display">
         <div class="form-group">
           <select [ngModel]="selectedLimit" (ngModelChange)="onLimitChange($event)" class="form-control mr-sm-2" name="select_limit">
@@ -26,6 +28,7 @@
           <label for="selectPages form-control-sm col-2" style="color: #fff">Items per page</label>
         </div>
       </form>
+      <!-- form with a field for search -->
       <form class="form-inline my-2 my-lg-0 ml-1 mr-5" *ngIf="display">
         <input class="form-control mr-sm-2" 
         name="search" 
@@ -34,6 +37,7 @@
         type="text" placeholder="Search" aria-label="Search">
         <button class="btn outline btn-primary my-2 my-sm-0" (click)="performSearch()" type="submit">Search</button>
       </form>
+      <!-- to diplay the logout dropdown and logged in user's email -->
       <ul class="navbar-nav mr-3">
         <li ngbDropdown class="nav-item dropdown d-inline-block">
           <a class="nav-link" id="dropdownBasic1" ngbDropdownToggle>{{user_email}}</a>

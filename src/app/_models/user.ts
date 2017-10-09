@@ -1,3 +1,4 @@
+// the User model
 export class User {
     id: number;
     email: string;
@@ -6,6 +7,7 @@ export class User {
     lastName: string;
 }
 
+// a sample User to use tests
 export const testUser = {
     'id': 1,
     'email': 'test',

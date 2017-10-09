@@ -31,10 +31,12 @@ describe('ModalBasicComponent', () => {
   });
 });
 
+// mock NgbActiveModal
 class MockNgbActiveModal {
 
 }
 
+// mock ChangeDetectorRef
 class MockChangeDetectorRef {
 
 }

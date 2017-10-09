@@ -1,3 +1,4 @@
+// the Bucketlist model
 export class Bucketlist {
     id: number;
     name: string;
@@ -7,6 +8,7 @@ export class Bucketlist {
     items: BucketlistItem[];
 }
 
+// the BucketlistJson model
 export class BucketlistJson {
     items: Bucketlist[];
     items_per_page: number;
@@ -17,6 +19,7 @@ export class BucketlistJson {
     total_pages: number;
 }
 
+// the BucketlistItem model
 export class BucketlistItem {
     id: number;
     name: string;
@@ -26,6 +29,7 @@ export class BucketlistItem {
     belongs_to: number;
 }
 
+// test bucketlist. to show the structure of expected data and to be used in testing
 export const testBucketlist = {
     'items': [
         {

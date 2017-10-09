@@ -36,11 +36,13 @@ describe('HeaderComponent', () => {
   });
 });
 
+// mock the authservice with an empty logout method
 class AuthService {
   logout() {
   }
 }
 
+// mock the alert service
 class MockAlertService {
   success(message: string) {}
   error(message: string) {}
@@ -49,9 +51,8 @@ class MockAlertService {
   }
 }
 
+// mock the actvated route
 class MockActivatedRoute {
-  // here you can add your mock objects, like snapshot or parent or whatever
-  // example:
   snapshot = {
     queryParams: {returnUrl: '/' },
     routeConfig: { children: { filter: () => {} } }

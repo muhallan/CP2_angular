@@ -35,6 +35,8 @@ describe('BucketlistDetailGuard', () => {
         const mockUrl = new MockUrlSegment();
         mockUrl.path = 'invalid';
         mockSnapshot.url.push(mockUrl);
+
+        // spy on the router method
         spyOn(router, 'navigate');
         expect(bucketGuard.canActivate(mockSnapshot)).toBeFalsy();
         expect(router.navigate).toHaveBeenCalled();
@@ -53,6 +55,7 @@ describe('BucketlistDetailGuard', () => {
     ));
 });
 
+// mock the AlertService class with unimplemented methods
 class MockAlertService {
   success(message: string) { }
   error(message: string) { }
@@ -61,11 +64,13 @@ class MockAlertService {
   }
 }
 
+// mock the ActivatedRouteSnapshot
 class MockActivatedRouteSnapshot {
   mockPath: MockUrlSegment = new MockUrlSegment;
   url: MockUrlSegment[] = new Array(this.mockPath);
 }
 
+// mock the UrlSegment class which has a property path
 class MockUrlSegment {
   path: string;
 }

@@ -4,6 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+<!-- create a form with the input for the new name -->
 <form name="form" (ngSubmit)="f.form.valid && editBucketlistName(bucketlist, bucketlistsAll)" #f="ngForm" novalidate>
 <div class="form-group modal-body">
   <input type="text" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && !editName.valid }" 
@@ -15,6 +16,7 @@
   />
   <div *ngIf="f.submitted && !editName.valid" class="help-block text-danger">Enter the bucket's name</div>
 </div>
+<!-- buttons to close the modal -->
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="activeModal.close(false)" >Cancel</button>
   <button type="submit" class="btn btn-primary" >Edit</button>

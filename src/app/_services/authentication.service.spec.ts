@@ -5,15 +5,12 @@ import { Http, Headers, Response, RequestOptions, HttpModule } from '@angular/ht
 describe('Authentication Service', () => {
     let auth;
 
-    // beforeEach(() => {
-    //     auth = new AuthenticationService(http: Http);
-    // })
-
     beforeEach(() => TestBed.configureTestingModule({
         imports: [ HttpModule ],
         providers: [ AuthenticationService ]
     }));
 
+    // inject the AuthenticationService
     beforeEach(inject([AuthenticationService], authService => {
         auth = authService;
     }));

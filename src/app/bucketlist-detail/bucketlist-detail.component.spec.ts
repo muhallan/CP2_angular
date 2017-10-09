@@ -42,15 +42,18 @@ describe('BucketlistDetailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BucketlistDetailComponent);
     component = fixture.componentInstance;
+    // spy on the getBucketlist method
     spyOn(component, 'getBucketlist');
     fixture.detectChanges();
   });
 
+  // test if the component is created successfully
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 });
 
+// mock the AlertService
 class MockAlertService {
   success(message: string) {}
   error(message: string) {}
@@ -59,20 +62,24 @@ class MockAlertService {
   }
 }
 
+// mock the BucketlistService
 class MockBucketlistService {
    getBucketlists(query: string, page: number, limit: number): Observable<BucketlistJson> {
      return Observable.of(testBucketlist);
    }
 }
 
+// mock the DeleteBucketlistItemService
 class MockDeleteBucketlistItemService {
 
 }
 
+// mock the EditBucketlistItemService
 class MockEditBucketlistItemService {
 
 }
 
+// mock the ActivatedRoute
 export class MockActivatedRoute implements ActivatedRoute {
   snapshot: ActivatedRouteSnapshot = new ActivatedRouteSnapshot;
   url: Observable<UrlSegment[]>;

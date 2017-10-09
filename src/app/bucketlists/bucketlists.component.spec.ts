@@ -47,6 +47,7 @@ describe('BucketlistsComponent', () => {
   });
 });
 
+// mock AlertService
 class MockAlertService {
   success(message: string) {}
   error(message: string) {}
@@ -55,16 +56,19 @@ class MockAlertService {
   }
 }
 
+// mock ucketlistService
 class MockBucketlistService {
    getBucketlists(query: string, page: number, limit: number): Observable<BucketlistJson> {
      return Observable.of(testBucketlist);
    }
 }
 
+// mock DeleteBucketlistService
 class MockDeleteBucketlistService {
 
 }
 
+// mock EditBucketlistService
 class MockEditBucketlistService {
 
 }

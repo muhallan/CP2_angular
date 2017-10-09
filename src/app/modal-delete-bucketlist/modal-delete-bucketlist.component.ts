@@ -22,6 +22,7 @@ export class DeleteBucketlistService {
 
   constructor(private modalService: NgbModal) {}
 
+  // used to create a model for confirming delete
   public confirm(bucket: Bucketlist) {
     const modalRef = this.modalService.open(ModalDeleteBucketlistComponent);
     modalRef.componentInstance.title = 'Confirm delete';

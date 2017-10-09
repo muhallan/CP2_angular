@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
 export class UserService {
     constructor(private http: Http) { }
 
+    // used to register a new user with the API
     create(user: User) {
         return this.http.post(environment.api_root + 'auth/register', user, this.jwt())
             .map((response: Response) => {

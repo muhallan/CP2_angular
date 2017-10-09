@@ -95,6 +95,7 @@ describe('Component: Login', () => {
     });
 });
 
+// mock auth service
 class AuthService {
     login(email: string, password: string) {
         if (email === 'test' && password === 'test') {
@@ -108,6 +109,7 @@ class AuthService {
     }
 }
 
+// mock alert service
 class MockAlertService {
     success(message: string) {}
     error(message: string) {}
@@ -116,9 +118,8 @@ class MockAlertService {
     }
 }
 
+// mock activated route
 class MockActivatedRoute {
-    // here you can add your mock objects, like snapshot or parent or whatever
-    // example:
     snapshot = {
       queryParams: {returnUrl: '/' },
       routeConfig: { children: { filter: () => {} } }

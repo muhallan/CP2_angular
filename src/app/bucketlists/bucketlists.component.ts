@@ -40,14 +40,18 @@ export class BucketlistsComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // fetch the bucketlists for the logged in user
     this.bucketlistService.getBucketlists(this.search_text, this.current_page, this.page_limit)
             .subscribe(
               data => {
+                // stop the loading
                 this.loading = false;
                 const bucketlists_json: BucketlistJson = data;
+                // loop through the returned json and add bucketlists to a array
                 for (const bucketlistJson of bucketlists_json.items) {
                     this.bucketlists.push(bucketlistJson);
                 }
+                // for use in navigation
                 this.total_items = bucketlists_json.total_items;
                 this.total_pages = bucketlists_json.total_pages;
 
@@ -57,6 +61,7 @@ export class BucketlistsComponent implements OnInit {
               err => {
                 this.loading = false;
                 let message: string;
+                // check for expired token
                 if (err === 'Expired token. Please login to get a new token') {
                     message = 'Your session has expired. Please login again.';
 
@@ -66,10 +71,12 @@ export class BucketlistsComponent implements OnInit {
                 } else {
                   message = err;
                 }
+                // display the error message
                 this.alertService.error(message);
             });
   }
 
+  // method called when a page number changes to display items on that page
   getAPIBucketlists(page_num: number) {
     this.current_page = page_num;
     this.bucketlistService.getBucketlists(this.search_text, this.current_page, this.page_limit)
@@ -102,6 +109,7 @@ export class BucketlistsComponent implements OnInit {
     });
   }
 
+  // method called with an updated number of bucketlists to display per page
   getPageLimit(limit: number) {
     this.page_limit = limit;
     this.bucketlistService.getBucketlists(this.search_text, this.current_page, this.page_limit)
@@ -134,6 +142,7 @@ export class BucketlistsComponent implements OnInit {
     });
   }
 
+  // retrieve bucketlists that contain the passed query in the name
   searchBucketlists(query: string) {
     this.search_text = query;
     this.bucketlistService.getBucketlists(query, this.current_page, this.page_limit)
@@ -171,6 +180,7 @@ export class BucketlistsComponent implements OnInit {
     });
   }
 
+  // used to edit the bucket's name using a modal
   editBucketlist(bucket: Bucketlist, bucketlists: Bucketlist[]) {
     const editPromise = this.editService.edit(bucket, bucketlists);
     const newObservable = Observable.fromPromise(editPromise);
@@ -188,6 +198,7 @@ export class BucketlistsComponent implements OnInit {
     );
   }
 
+  // display a modal to confirm whether a bucket should be deleted or not
   confirmDelete(bucket: Bucketlist) {
     const modalPromise = this.deleteService.confirm(bucket);
     const newObservable = Observable.fromPromise(modalPromise);

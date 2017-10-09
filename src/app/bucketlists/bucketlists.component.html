@@ -1,14 +1,20 @@
+<!-- display the navigation header -->
 <app-header [display]="enableSearch" (limit)="getPageLimit($event)" (search_query)="searchBucketlists($event)"></app-header>
 <header style="text-align:center; margin-top: 75px;">
+
+  <!-- display the title and the input for adding a new bucket -->
   <section>
       A bucket list is a list of everything that you want to be, do, have, and experience in life. <br />
         Write them down for easy tracking.
   </section>
   <app-add-bucketlist *ngIf='!loading;' [newbucketlists]="bucketlists" [pageLimit]="page_limit"></app-add-bucketlist>
 </header>
+<!-- display the loading icon if content hasn't arrived yet -->
 <div *ngIf='!loading; else loadingBlock' class="row justify-content-center">
+  <!-- display the buckets retrieved or a message if none -->
   <div *ngIf='bucketlists && bucketlists.length; else elseBlock' class="col-sm-9 center-block " style="margin-top: 40px;">
     
+    <!-- loop through all the buckets -->
     <div class="row d-flex flex-row card border-primary" *ngFor="let bucketlist of bucketlists; let num = index">
       
       <div class="col">
@@ -19,16 +25,17 @@
         </div>
       </div>
       <div class="col-2 align-items-end align-self-center" style="padding-left: 50px;">
-          <a href="#" (click)="editBucketlist(bucketlist, bucketlists)" class="special_btn btn btn-primary a-btn-slide-text" >
+          <a (click)="editBucketlist(bucketlist, bucketlists)" class="special_btn btn btn-primary a-btn-slide-text" >
               <span class="fa fa-edit" aria-hidden="true"></span>
               <span><strong>Edit</strong></span>            
           </a>
-          <a href="#" (click)="confirmDelete(bucketlist)" class="special_btn btn btn-primary a-btn-slide-text">
+          <a (click)="confirmDelete(bucketlist)" class="special_btn btn btn-primary a-btn-slide-text">
             <span class="fa fa-remove" aria-hidden="true"></span>
               <span><strong>Delete</strong></span>            
           </a>
       </div>
     </div>
+    <!-- to display pagination at the bottom -->
     <div *ngIf="pages">
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-end">
@@ -52,6 +59,7 @@
     </div>
   </div>
 </div>
+<!-- block to display the loading icon -->
 <ng-template #loadingBlock>
   <div class="col-4 mx-auto text-center" style="margin-top: 300px;">
     <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
@@ -59,6 +67,7 @@
   </div> 
 </ng-template>
 
+<!-- block to show no buckets -->
 <ng-template #elseBlock>
     <div class="text-center" style="margin-top: 15px;">
         <img src="../assets/images/empty_bucket.png">

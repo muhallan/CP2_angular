@@ -36,6 +36,7 @@ describe('Component: Login', () => {
             })
             .compileComponents()
             .then(() => {
+                // create the component and get the injected services
                 fixture = TestBed.createComponent(RegisterComponent);
                 component = fixture.componentInstance;
                 userService = TestBed.get(UserService);
@@ -60,6 +61,7 @@ describe('Component: Login', () => {
 
     describe('when valid registration values are entered', () => {
         it('then the login route should be displayed', () => {
+            // spy on the navigate method of router
             const routerSpy = spyOn(router, 'navigate').and.returnValue('');
             component.register(testUser);
             fixture.detectChanges();
@@ -67,7 +69,9 @@ describe('Component: Login', () => {
             expect(routerSpy).toHaveBeenCalledWith(['/login']);
         });
         it(`the 'Registered successfully' message is returned`, () => {
+            // spy on the create method of user service
             spyOn(userService, 'create').and.returnValue(Observable.of({'message': 'You registered successfully. Please log in.'}));
+            // spy on the success method of alert
             const alertSpy = spyOn(alert, 'success').and.returnValue('');
             component.register(testUser);
             fixture.detectChanges();
@@ -80,6 +84,7 @@ describe('Component: Login', () => {
     describe('when invalid values are entered', () => {
 
         it(`then 'Invalid data' error should be displayed`, () => {
+            // spy on the create method of user service
             spyOn(userService, 'create').and.returnValue(Observable.throw({_body: JSON.stringify({message: 'Invalid data'})}));
             const alertSpy = spyOn(alert, 'error').and.returnValue('');
             const user = new User();
@@ -89,7 +94,9 @@ describe('Component: Login', () => {
         });
 
         it(`then router navigate should not be called`, () => {
+            // spy on the create method of user service
             spyOn(userService, 'create').and.returnValue(Observable.throw({_body: JSON.stringify({message: 'Invalid data'})}));
+            // spy on the navigate method of router
             spyOn(router, 'navigate').and.returnValue('');
             const user = new User();
             component.register(user);
@@ -100,6 +107,7 @@ describe('Component: Login', () => {
     });
 });
 
+// create a mock for alert service
 class MockAlertService {
     success(message: string) {}
     error(message: string) {}
@@ -108,11 +116,14 @@ class MockAlertService {
     }
 }
 
+// create a mock for the user service
 class MockUserService {
     create(user: User) {
         if (user === testUser) {
+            // mock the success method when expected user credentials are input
             return Observable.of({'message': 'You registered successfully. Please log in.'});
         } else {
+            // mock an error that is thrown when bad data is input
             return Observable.throw({_body: JSON.stringify({message: 'Invalid data'})});
         }
     }

@@ -39,6 +39,7 @@ export class BucketlistDetailComponent implements OnInit {
     this.getBucketlist(id);
   }
 
+  // retrieve the requested for bucketlist from the API
   getBucketlist(id: number) {
     this.bucketlistService.getBucketlist(id).subscribe(
       bucketlist => {
@@ -47,6 +48,7 @@ export class BucketlistDetailComponent implements OnInit {
         this.bucketlistName = this.bucketlist.name;
         this.bucketlistItems = this.bucketlist.items;
 
+        // loop through the bucketlist items and separate the done items from those not done
         for (const item of this.bucketlistItems) {
           if (item.done === true) {
             this.doneItems.push(item);
@@ -60,13 +62,14 @@ export class BucketlistDetailComponent implements OnInit {
         let message: string;
         this.errorMessage = <any>error;
 
+        // check if the error is the expired token
         if (error === 'Expired token. Please login to get a new token') {
             message = 'Your session has expired. Please login again.';
 
             this.returnUrl = 'login';
             this.router.navigate([this.returnUrl]);
         } else {
-          // TODO do this on all the functions
+          // check if the error is 404
           if (error === '404') {
             // get return url from route parameters or default to '/'
             this.returnUrl = 'page-not-found';
@@ -79,11 +82,13 @@ export class BucketlistDetailComponent implements OnInit {
       });
   }
 
+  // method to add a new item to the bucket
   addBucketlistItem(name: string, id: number) {
     if (name === '') {
       const error = 'Bucketlist name cannot be empty';
       this.alertService.error(error);
     } else {
+      // call the API method for adding a new bucket
       this.bucketlistService.addBucketlistItem(name, id)
       .subscribe(
         data => {
@@ -93,6 +98,7 @@ export class BucketlistDetailComponent implements OnInit {
       },
         err => {
           let message: string;
+          // check if the token has expired
           if (err === 'Expired token. Please login to get a new token') {
               message = 'Your session has expired. Please login again.';
 
@@ -100,21 +106,27 @@ export class BucketlistDetailComponent implements OnInit {
               this.returnUrl = 'login';
               this.router.navigate([this.returnUrl]);
           } else {
+            // otherwise display the retrived error
             const body = JSON.parse(err._body);
             message = body.message;
           }
+          // show the error message using alertservice
           this.alertService.error(message);
 
       });
     }
+    // empty the input field
     this.newItem = null;
   }
 
+  // method to toggle the done status of a bucketlist item
   toggleDone(item: BucketlistItem) {
     const newStatus: string = (!item.done).toString();
+    // call the API methode and pass it the status in a string format
     this.bucketlistService.toggleBucketlistItemDone(item.name, item.belongs_to, newStatus, item.id)
     .subscribe(
       data => {
+        // retrieve the edited item
         const bucketlistItem: BucketlistItem = data;
 
         // check the done status and determine which array to move the item to
@@ -132,6 +144,7 @@ export class BucketlistDetailComponent implements OnInit {
     },
       err => {
         let message: string;
+        // check if the token has expired or not
         if (err === 'Expired token. Please login to get a new token') {
             message = 'Your session has expired. Please login again.';
 
@@ -139,14 +152,17 @@ export class BucketlistDetailComponent implements OnInit {
             this.returnUrl = 'login';
             this.router.navigate([this.returnUrl]);
         } else {
+          // display the returned error
           const body = JSON.parse(err._body);
           message = body.message;
         }
+        // display the error
         this.alertService.error(message);
 
     });
   }
 
+  // method to edit the name of the bucketlist item using a model
   editBucketlistItem(bucketlistItem: BucketlistItem, bucketlistItems: BucketlistItem[]) {
     const editPromise = this.editService.edit(bucketlistItem, bucketlistItems);
     const newObservable = Observable.fromPromise(editPromise);
@@ -164,12 +180,14 @@ export class BucketlistDetailComponent implements OnInit {
     );
   }
 
+  // create a modal that confirms whether the item should be deleted
   confirmDeleteItem(bucketItem: BucketlistItem) {
     const modalPromise = this.deleteService.confirm(bucketItem);
     const newObservable = Observable.fromPromise(modalPromise);
     newObservable.subscribe(
       (res) => {
         if (res === true) {
+          // call the delete method from the service
           this.bucketlistService.deleteBucketlistItem(bucketItem.id, bucketItem.belongs_to)
           .subscribe(
             data => {
@@ -186,6 +204,7 @@ export class BucketlistDetailComponent implements OnInit {
           },
             err => {
               let message: string;
+              // check if the token has expired
               if (err === 'Expired token. Please login to get a new token') {
                   message = 'Your session has expired. Please login again.';
 
@@ -196,6 +215,7 @@ export class BucketlistDetailComponent implements OnInit {
                 const body = JSON.parse(err._body);
                 message = body.message;
               }
+              // display the error message
               this.alertService.error(message);
 
           });
@@ -209,6 +229,7 @@ export class BucketlistDetailComponent implements OnInit {
     );
   }
 
+  // method to go back
   onBack(): void {
     this.router.navigate(['/bucketlists']);
   }

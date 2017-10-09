@@ -16,6 +16,7 @@ describe('AppComponent', () => {
   }));
 
   beforeEach(() => {
+    // create the component
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -27,11 +28,13 @@ describe('AppComponent', () => {
 
   it(`should have tag 'alert'`, async(() => {
     const compiled = fixture.debugElement.nativeElement;
+    // query for the custom html element alert
     expect(compiled.querySelector('alert')).toBeTruthy();
   }));
 
   it(`should have tag 'router-outlet'`, async(() => {
     const compiled = fixture.debugElement.nativeElement;
+    // query for the custom html element router-outlet
     expect(compiled.querySelector('router-outlet')).toBeTruthy();
   }));
 });

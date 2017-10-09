@@ -18,6 +18,7 @@ describe('Router tests', () => {
         providers: [{provide: APP_BASE_HREF, useValue: ''}]
       }).compileComponents();
     });
+    // inject the Router dependency
     beforeEach(inject([Router], _router => {
       router = _router;
     }));
@@ -32,6 +33,7 @@ describe('Router tests', () => {
     }));
     it('should redirect unexisting urls to PageNotFound (fakeAsync/tick)', fakeAsync(() => {
       const fixture = TestBed.createComponent(LoginComponent);
+      // navigate to a fake route
       router.navigate(['/undefined/route']);
       fixture.detectChanges();
       // execute all pending asynchronous calls

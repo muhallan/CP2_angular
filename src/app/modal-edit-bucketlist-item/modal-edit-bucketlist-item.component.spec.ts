@@ -41,6 +41,7 @@ describe('ModalEditBucketlistItemComponent', () => {
   });
 });
 
+// create the mocks for the dependencies
 class MockAlertService {
 
 }

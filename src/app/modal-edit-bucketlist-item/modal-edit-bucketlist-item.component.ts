@@ -48,6 +48,7 @@ export class ModalEditBucketlistItemComponent implements OnInit {
       },
         err => {
           let message: string;
+          // check if the token has timed out
           if (err === 'Expired token. Please login to get a new token') {
               message = 'Your session has expired. Please login again.';
 
@@ -55,9 +56,11 @@ export class ModalEditBucketlistItemComponent implements OnInit {
               this.returnUrl = 'login';
               this.router.navigate([this.returnUrl]);
           } else {
+            // else retrieve the error returned
             const body = JSON.parse(err._body);
             message = body.message;
           }
+          // display the error
           this.alertService.error(message);
           this.activeModal.close();
 
@@ -66,6 +69,7 @@ export class ModalEditBucketlistItemComponent implements OnInit {
   }
 }
 
+// service that createds the model for editing a bucketlist item
 @Injectable()
 export class EditBucketlistItemService {
 

@@ -14,6 +14,7 @@ export class AlertComponent implements OnInit {
     constructor(private alertService: AlertService) { }
 
     ngOnInit() {
+        // create an alert on the DOM that displays the passed in message
         this.alertService.getMessage().subscribe(message => { this.message = message; });
     }
 }

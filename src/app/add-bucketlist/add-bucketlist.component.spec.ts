@@ -46,6 +46,7 @@ describe('AddBucketlistComponent', () => {
   });
 });
 
+// mock the AlertService with empty methods
 class MockAlertService {
   success(message: string) {}
   error(message: string) {}
@@ -54,5 +55,6 @@ class MockAlertService {
   }
 }
 
+// mock the BucketlistService
 class MockBucketlistService {
 }

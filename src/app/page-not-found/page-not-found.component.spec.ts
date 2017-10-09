@@ -35,6 +35,7 @@ describe('PageNotFoundComponent', () => {
   }));
 
   it('should have content in the p tag', () => {
+    // query for the tag <p> by CSS element selector
     de = fixture.debugElement.query(By.css('p'));
     el = de.nativeElement;
     expect(el.textContent).toEqual('You may be lost. Follow the breadcrumbs back home.');
