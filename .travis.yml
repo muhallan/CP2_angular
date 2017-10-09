@@ -18,6 +18,9 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 before_script:
+- npm uninstall @angular/cli -g
+- npm install rxjs -g
+- npm cache clean
 - npm install -dev -g @angular/cli@latest
 - npm install -g karma
 - npm install

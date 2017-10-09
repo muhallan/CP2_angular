@@ -1,6 +1,7 @@
 # Bucketlists
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
+This is a front-end app developed with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
+It helps one write down the activities they want to do before they die. This application consumes an API found [here](https://github.com/muhallan/CP2_Bucketlist/).
 
 ## Development server
 
