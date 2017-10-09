@@ -18,9 +18,9 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 before_script:
-- sudo npm uninstall -g angular-cli
-- sudo npm cache clean
-- sudo npm install -g angular-cli@latest
+- npm uninstall -g angular-cli
+- npm cache clean
+- npm install -g angular-cli@latest
 - rm -rf node_modules dist tmp
 - npm install --save-dev angular-cli@latest
 - npm install -g karma
