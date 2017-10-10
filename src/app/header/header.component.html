@@ -1,0 +1,52 @@
+<header>
+   <!-- the navigation bar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark navbar-inverse bg-primary">
+    <a class="navbar-brand" href="#">
+        <img src="../assets/images/title_icon.jpg" width="30" height="30" alt="">
+        My Bucketlists!
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="nav-content">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      <!-- to limit items per page -->
+      <form class="form-inline my-2 my-lg-0 ml-auto mr-4" *ngIf="display">
+        <div class="form-group">
+          <select [ngModel]="selectedLimit" (ngModelChange)="onLimitChange($event)" class="form-control mr-sm-2" name="select_limit">
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="50">50</option>
+            <option [value]="100">100</option>
+          </select>
+          <label for="selectPages form-control-sm col-2" style="color: #fff">Items per page</label>
+        </div>
+      </form>
+      <!-- form with a field for search -->
+      <form class="form-inline my-2 my-lg-0 ml-1 mr-5" *ngIf="display">
+        <input class="form-control mr-sm-2" 
+        name="search" 
+        [(ngModel)]="search_value" 
+        #search="ngModel" 
+        type="text" placeholder="Search" aria-label="Search">
+        <button class="btn outline btn-primary my-2 my-sm-0" (click)="performSearch()" type="submit">Search</button>
+      </form>
+      <!-- to diplay the logout dropdown and logged in user's email -->
+      <ul class="navbar-nav mr-3">
+        <li ngbDropdown class="nav-item dropdown d-inline-block">
+          <a class="nav-link" id="dropdownBasic1" ngbDropdownToggle>{{user_email}}</a>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button class="dropdown-item" (click)="logout()"><span class="fa fa-sign-out"></span>  Logout</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+      
+  </nav>
+</header>

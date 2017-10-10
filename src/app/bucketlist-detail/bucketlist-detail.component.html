@@ -1,0 +1,66 @@
+<app-header></app-header>
+<div ui-view="header" autoscroll="true" class="row justify-content-center" style="margin-top: 40px;">
+  <div class="col-md-8 col-md-offset-2">   
+    
+    <!-- display the loading icon if the data is not yet fully fetched -->
+    <div *ngIf='!loading; else loadingBlock' class="bucketlist">
+      <h3>{{bucketlistName}}</h3>
+      <input type="text" class="form-control add-item" placeholder="Add item to bucket (enter when done)"
+      autofocus
+      [(ngModel)]="newItem"
+      (keyup.enter)="addBucketlistItem(bItemName.value, bucketlist.id)"
+      #bItemName
+      />
+      <!-- loop throught the bucketlist items and display them one by one -->
+      <div class="items" *ngIf='bucketlistItems && bucketlistItems.length; else elseBlock'>
+        <ul id="sortable" class="list-unstyled">
+          <li class="ui-state-default" *ngFor="let item of pendingItems">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" value="" (click)="toggleDone(item)" [checked]="item.done"/>
+                  {{item.name}}
+                </label>
+                <a (click)="confirmDeleteItem(item)"><span class="pull-right fa fa-remove"></span></a>
+                <a (click)="editBucketlistItem(item, pendingItems)"><span class="fa fa-edit pull-right" style="margin-right: 15px;"></span></a>
+              </div>
+          </li>
+        </ul>
+        <!-- show the number of items that are marked as done -->
+        <div class="bucket-footer">
+          <strong><span class="count-todos"></span></strong> {{bucketlistItems.length - doneItems.length}} {{(bucketlistItems.length - doneItems.length) == 1 ? 'item' : 'items' }} left
+        </div>
+        <!-- done items are displayed here -->
+        <div class="bucketlist" *ngIf='doneItems && doneItems.length'>
+          <h4 style="text-align: left;">Already done items</h4>
+          <ul id="done-items" class="list-unstyled">
+            
+            <li *ngFor="let item of doneItems"> 
+              <div class="checkbox">
+                  <label>
+                  <input type="checkbox" value="" (click)="toggleDone(item)" [checked]="item.done"/>
+                {{item.name}}
+                </label>
+                <a (click)="confirmDeleteItem(item)"><span class="fa fa-remove pull-right"></span></a>
+              </div>
+            </li> 
+          </ul>
+        </div>
+      </div>
+      <!-- block to show the image and message when the bucket has no items -->
+      <ng-template #elseBlock>
+          <div class="text-center">
+            <img src="../assets/images/empty_bucket.png">
+            <p>Your bucket is empty. Add items to it by typing in the input above.</p>
+          </div>
+      </ng-template> 
+    </div>
+    <!-- block to show the loading icon -->
+    <ng-template #loadingBlock>
+      <div class="col-4 mx-auto text-center" style="margin-top: 300px;">
+        <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        Loading
+      </div> 
+    </ng-template>
+  </div>
+  
+</div>

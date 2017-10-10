@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ title }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<!-- form for getting the new name -->
+<form name="form" (ngSubmit)="f.form.valid && editBucketlistItemName(bucketlistItem, bucketlistItemsAll)" #f="ngForm" novalidate>
+  <div class="form-group modal-body">
+    <input type="text" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && !editName.valid }" 
+    name="editName"
+    autofocus
+    [(ngModel)]="bucketItemEditName"
+    #editName="ngModel"
+    required 
+    />
+    <div *ngIf="f.submitted && !editName.valid" class="help-block text-danger">Enter the bucketlist item's name</div>
+  </div>
+  <!-- buttons for dismissing or approving -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close(false)" >Cancel</button>
+    <button type="submit" class="btn btn-primary" >Edit</button>
+  </div>
+</form>
